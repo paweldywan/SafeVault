@@ -54,11 +54,13 @@ namespace SaveVault
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
-            // Configure cookie authentication
+            // Configure cookie authentication with environment-specific settings
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SecurePolicy = builder.Environment.IsEnvironment("Testing") 
+                    ? CookieSecurePolicy.None 
+                    : CookieSecurePolicy.Always;
                 options.Cookie.SameSite = SameSiteMode.Strict;
                 options.ExpireTimeSpan = TimeSpan.FromHours(2);
                 options.SlidingExpiration = true;
@@ -70,21 +72,26 @@ namespace SaveVault
             // Add application services
             builder.Services.AddScoped<IDocumentService, DocumentService>();
 
-            // Configure security headers
+            // Configure security headers with environment-specific settings
             builder.Services.AddAntiforgery(options =>
             {
                 options.HeaderName = "X-CSRF-TOKEN";
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SecurePolicy = builder.Environment.IsEnvironment("Testing") 
+                    ? CookieSecurePolicy.None 
+                    : CookieSecurePolicy.Always;
                 options.Cookie.SameSite = SameSiteMode.Strict;
             });
 
-            // Add HSTS
-            builder.Services.AddHsts(options =>
+            // Add HSTS for non-testing environments
+            if (!builder.Environment.IsEnvironment("Testing"))
             {
-                options.Preload = true;
-                options.IncludeSubDomains = true;
-                options.MaxAge = TimeSpan.FromDays(365);
-            });
+                builder.Services.AddHsts(options =>
+                {
+                    options.Preload = true;
+                    options.IncludeSubDomains = true;
+                    options.MaxAge = TimeSpan.FromDays(365);
+                });
+            }
 
             var app = builder.Build();
 
@@ -92,7 +99,10 @@ namespace SaveVault
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                if (!app.Environment.IsEnvironment("Testing"))
+                {
+                    app.UseHsts();
+                }
             }
             else
             {
@@ -112,7 +122,12 @@ namespace SaveVault
                 await next();
             });
 
-            app.UseHttpsRedirection();
+            // Only redirect to HTTPS in non-testing environments
+            if (!app.Environment.IsEnvironment("Testing"))
+            {
+                app.UseHttpsRedirection();
+            }
+
             app.UseRouting();
 
             app.UseAuthentication();
