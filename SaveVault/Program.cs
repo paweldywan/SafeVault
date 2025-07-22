@@ -109,15 +109,46 @@ namespace SaveVault
                 app.UseDeveloperExceptionPage();
             }
 
-            // Security headers middleware
+            // Security headers middleware with environment-specific CSP
             app.Use(async (context, next) =>
             {
+                // Always apply basic security headers
                 context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
                 context.Response.Headers.Append("X-Frame-Options", "DENY");
                 context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
                 context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
-                context.Response.Headers.Append("Content-Security-Policy", 
-                    "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'");
+                
+                // Only apply CSP in production environments to avoid Browser Link issues in development/testing
+                if (app.Environment.IsProduction())
+                {
+                    // Production CSP - Strict security
+                    context.Response.Headers.Append("Content-Security-Policy", 
+                        "default-src 'self'; " +
+                        "script-src 'self'; " +
+                        "style-src 'self'; " +
+                        "img-src 'self' data:; " +
+                        "font-src 'self'; " +
+                        "connect-src 'self'; " +
+                        "frame-ancestors 'none'; " +
+                        "base-uri 'self'; " +
+                        "form-action 'self'; " +
+                        "upgrade-insecure-requests");
+                }
+                else if (app.Environment.IsStaging())
+                {
+                    // Staging CSP - Moderate restrictions
+                    context.Response.Headers.Append("Content-Security-Policy", 
+                        "default-src 'self'; " +
+                        "script-src 'self' 'unsafe-inline'; " +
+                        "style-src 'self' 'unsafe-inline'; " +
+                        "img-src 'self' data:; " +
+                        "font-src 'self'; " +
+                        "connect-src 'self'; " +
+                        "frame-ancestors 'none'; " +
+                        "base-uri 'self'; " +
+                        "form-action 'self'");
+                }
+                // In development and testing, no CSP to allow Browser Link and development tools
                 
                 await next();
             });

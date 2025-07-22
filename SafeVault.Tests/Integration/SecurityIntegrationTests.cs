@@ -67,12 +67,14 @@ namespace SafeVault.Tests.Integration
             Assert.True(response.Headers.Contains("X-Frame-Options"));
             Assert.True(response.Headers.Contains("X-XSS-Protection"));
             Assert.True(response.Headers.Contains("Referrer-Policy"));
-            Assert.True(response.Headers.Contains("Content-Security-Policy"));
 
             // Verify header values
             Assert.Equal("nosniff", response.Headers.GetValues("X-Content-Type-Options").First());
             Assert.Equal("DENY", response.Headers.GetValues("X-Frame-Options").First());
             Assert.Equal("1; mode=block", response.Headers.GetValues("X-XSS-Protection").First());
+
+            // CSP should not be present in Testing environment (same as Development for Browser Link)
+            Assert.False(response.Headers.Contains("Content-Security-Policy"));
         }
 
         [Fact]
@@ -315,7 +317,7 @@ namespace SafeVault.Tests.Integration
                 // Assert
                 response.EnsureSuccessStatusCode();
                 
-                // Verify security headers are present
+                // Verify security headers are present (but not CSP in testing/development)
                 Assert.True(response.Headers.Contains("X-Content-Type-Options"));
                 Assert.True(response.Headers.Contains("X-Frame-Options"));
                 Assert.True(response.Headers.Contains("X-XSS-Protection"));
