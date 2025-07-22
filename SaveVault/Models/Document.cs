@@ -8,7 +8,7 @@ namespace SaveVault.Models
 
         [Required(ErrorMessage = "Title is required")]
         [StringLength(200, MinimumLength = 3, ErrorMessage = "Title must be between 3 and 200 characters")]
-        [RegularExpression(@"^[a-zA-Z0-9\s\-_\.]+$", ErrorMessage = "Title contains invalid characters")]
+        [RegularExpression(@"^[a-zA-Z0-9\s\-_\.\,\'\!]+$", ErrorMessage = "Title contains invalid characters. Only letters, numbers, spaces, hyphens, underscores, dots, commas, apostrophes, and exclamation marks are allowed.")]
         public string Title { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Content is required")]

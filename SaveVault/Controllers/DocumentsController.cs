@@ -50,6 +50,10 @@ namespace SaveVault.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            // Debug logging for authentication state
+            _logger.LogInformation("Create GET action called. User authenticated: {IsAuthenticated}, User ID: {UserId}", 
+                User.Identity?.IsAuthenticated ?? false, GetCurrentUserId() ?? "null");
+            
             return View();
         }
 
@@ -57,9 +61,20 @@ namespace SaveVault.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Document document)
         {
+            // Debug logging for model state
+            _logger.LogInformation("Document creation attempt - Title: {Title}, Content Length: {ContentLength}", 
+                document?.Title ?? "null", document?.Content?.Length ?? 0);
+
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("Invalid document creation attempt with validation errors");
+                _logger.LogWarning("Invalid document creation attempt with validation errors:");
+                foreach (var error in ModelState)
+                {
+                    foreach (var subError in error.Value.Errors)
+                    {
+                        _logger.LogWarning("Validation error in {Field}: {Error}", error.Key, subError.ErrorMessage);
+                    }
+                }
                 return View(document);
             }
 
@@ -72,11 +87,14 @@ namespace SaveVault.Controllers
                     return RedirectToAction("Login", "Auth");
                 }
 
+                _logger.LogInformation("Creating document for user {UserId}", userId);
+
                 document.UserId = userId;
                 document.User = null; // Clear navigation property
 
-                await _documentService.CreateDocumentAsync(document);
+                var createdDocument = await _documentService.CreateDocumentAsync(document);
                 
+                _logger.LogInformation("Document created successfully with ID {DocumentId}", createdDocument.Id);
                 TempData["SuccessMessage"] = "Document created successfully!";
                 return RedirectToAction(nameof(Index));
             }
