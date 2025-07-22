@@ -1,0 +1,69 @@
+@model IEnumerable<SafeVault.Models.Document>
+@{
+    ViewData["Title"] = "My Documents";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>@ViewData["Title"]</h1>
+    <a asp-action="Create" class="btn btn-success">
+        <i class="fa fa-plus"></i> New Document
+    </a>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var document in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(m => document.Title)</h5>
+                        <p class="card-text">
+                            @Html.Raw(document.Content.Length > 100 ? 
+                                Html.Encode(document.Content.Substring(0, 100)) + "..." : 
+                                Html.Encode(document.Content))
+                        </p>
+                        <small class="text-muted">
+                            Updated: @document.UpdatedAt.ToString("MMM dd, yyyy")
+                        </small>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="btn-group w-100" role="group">
+                            <a asp-action="Details" asp-route-id="@document.Id" 
+                               class="btn btn-outline-primary btn-sm">View</a>
+                            <a asp-action="Edit" asp-route-id="@document.Id" 
+                               class="btn btn-outline-secondary btn-sm">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@document.Id" 
+                               class="btn btn-outline-danger btn-sm">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="text-center py-5">
+        <h3 class="text-muted">No documents found</h3>
+        <p class="text-muted">Create your first document to get started!</p>
+        <a asp-action="Create" class="btn btn-primary btn-lg">Create Document</a>
+    </div>
+}

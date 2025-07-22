@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using SaveVault.Controllers;
-using SaveVault.Models;
-using SaveVault.Models.ViewModels;
+using SafeVault.Controllers;
+using SafeVault.Models;
+using SafeVault.Models.ViewModels;
 using System.Security.Claims;
 using IdentitySignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 

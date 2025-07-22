@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using SaveVault.Data;
+using SafeVault.Data;
 using System.Net;
 
 namespace SafeVault.Tests.Integration
 {
-    public class SecurityIntegrationTests : IClassFixture<WebApplicationFactory<SaveVault.Program>>, IDisposable
+    public class SecurityIntegrationTests : IClassFixture<WebApplicationFactory<SafeVault.Program>>, IDisposable
     {
-        private readonly WebApplicationFactory<SaveVault.Program> _factory;
+        private readonly WebApplicationFactory<SafeVault.Program> _factory;
         private readonly HttpClient _client;
 
-        public SecurityIntegrationTests(WebApplicationFactory<SaveVault.Program> factory)
+        public SecurityIntegrationTests(WebApplicationFactory<SafeVault.Program> factory)
         {
             _factory = factory.WithWebHostBuilder(builder =>
             {
@@ -108,7 +108,7 @@ namespace SafeVault.Tests.Integration
             // Assert
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            Assert.Contains("Login to SaveVault", content);
+            Assert.Contains("Login to SafeVault", content);
         }
 
         [Fact]

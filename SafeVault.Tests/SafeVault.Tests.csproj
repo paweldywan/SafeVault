@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SaveVault\SaveVault.csproj" />
+    <ProjectReference Include="..\SafeVault\SafeVault.csproj" />
   </ItemGroup>
 
 </Project>

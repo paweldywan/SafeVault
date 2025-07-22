@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
-using SaveVault.Data;
-using SaveVault.Models;
-using SaveVault.Services;
+using SafeVault.Data;
+using SafeVault.Models;
+using SafeVault.Services;
 
 namespace SafeVault.Tests.Security
 {

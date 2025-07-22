@@ -1,15 +1,15 @@
-# SaveVault
+# SafeVault
 
 [![.NET](https://img.shields.io/badge/.NET-9.0-blue.svg)](https://dotnet.microsoft.com/download/dotnet/9.0)
 [![Security Score](https://img.shields.io/badge/Security%20Score-95/100-brightgreen.svg)](#security-features)
 [![Build](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](#build-status)
 [![Tests](https://img.shields.io/badge/Tests-85%20Passing-brightgreen.svg)](#testing)
 
-SaveVault is a secure, enterprise-grade document management system built with ASP.NET Core 9.0 and designed with security-first principles. It demonstrates comprehensive implementation of modern web application security practices, making it an excellent reference for secure application development.
+SafeVault is a secure, enterprise-grade document management system built with ASP.NET Core 9.0 and designed with security-first principles. It demonstrates comprehensive implementation of modern web application security practices, making it an excellent reference for secure application development.
 
 ## Security Features
 
-SaveVault implements **OWASP Top 10** protection and enterprise-grade security measures:
+SafeVault implements **OWASP Top 10** protection and enterprise-grade security measures:
 
 ### Input Validation & Sanitization
 - **Strong validation attributes** on all data models
@@ -85,7 +85,7 @@ SaveVault implements **OWASP Top 10** protection and enterprise-grade security m
 
 ### Project Structure
 ```
-SaveVault/
+SafeVault/
 |-- Controllers/              # MVC Controllers
 |   |-- AuthController.cs        # Authentication logic
 |   |-- DocumentsController.cs   # Document management
@@ -136,7 +136,7 @@ The project includes **85 comprehensive tests** covering:
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd SaveVault
+   cd SafeVault
    ```
 
 2. **Restore dependencies**
@@ -145,12 +145,12 @@ The project includes **85 comprehensive tests** covering:
    ```
 
 3. **Update database connection** (optional)
-   - Default uses LocalDB: `Server=(localdb)\\mssqllocaldb;Database=SaveVaultDb;Trusted_Connection=true`
+   - Default uses LocalDB: `Server=(localdb)\\mssqllocaldb;Database=SafeVaultDb;Trusted_Connection=true`
    - Update `appsettings.json` for custom SQL Server connection
 
 4. **Run the application**
    ```bash
-   dotnet run --project SaveVault
+   dotnet run --project SafeVault
    ```
 
 5. **Run tests**
@@ -212,6 +212,6 @@ For support, please:
 
 ---
 
-**SaveVault** - *Secure Document Management Made Simple*
+**SafeVault** - *Secure Document Management Made Simple*
 
 *Built with security-first principles and modern web development best practices.*
