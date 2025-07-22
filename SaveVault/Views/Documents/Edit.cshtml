@@ -1,4 +1,4 @@
-@model SaveVault.Models.Document
+@model SaveVault.Models.ViewModels.EditDocumentViewModel
 @{
     ViewData["Title"] = "Edit Document";
 }
@@ -8,21 +8,23 @@
 <div class="row">
     <div class="col-md-8">
         <form asp-action="Edit" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
             
             <input type="hidden" asp-for="Id" />
             
             <div class="form-group mb-3">
                 <label asp-for="Title" class="form-label"></label>
-                <input asp-for="Title" class="form-control" placeholder="Enter document title" />
+                <input asp-for="Title" class="form-control" placeholder="Enter document title (3-200 chars, letters, numbers, spaces, hyphens, underscores, dots only)" />
                 <span asp-validation-for="Title" class="text-danger"></span>
+                <small class="form-text text-muted">Title must be 3-200 characters long and contain only letters, numbers, spaces, hyphens, underscores, and dots.</small>
             </div>
 
             <div class="form-group mb-3">
                 <label asp-for="Content" class="form-label"></label>
                 <textarea asp-for="Content" class="form-control" rows="10" 
-                          placeholder="Enter document content"></textarea>
+                          placeholder="Enter document content (minimum 10 characters)"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
+                <small class="form-text text-muted">Content must be at least 10 characters long.</small>
             </div>
 
             <div class="form-group">

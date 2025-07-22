@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SaveVault.Models;
+using SaveVault.Models.ViewModels;
 using SaveVault.Services;
 using System.Security.Claims;
 
@@ -54,16 +55,16 @@ namespace SaveVault.Controllers
             _logger.LogInformation("Create GET action called. User authenticated: {IsAuthenticated}, User ID: {UserId}", 
                 User.Identity?.IsAuthenticated ?? false, GetCurrentUserId() ?? "null");
             
-            return View();
+            return View(new CreateDocumentViewModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Document document)
+        public async Task<IActionResult> Create(CreateDocumentViewModel model)
         {
             // Debug logging for model state
             _logger.LogInformation("Document creation attempt - Title: {Title}, Content Length: {ContentLength}", 
-                document?.Title ?? "null", document?.Content?.Length ?? 0);
+                model?.Title ?? "null", model?.Content?.Length ?? 0);
 
             if (!ModelState.IsValid)
             {
@@ -75,7 +76,7 @@ namespace SaveVault.Controllers
                         _logger.LogWarning("Validation error in {Field}: {Error}", error.Key, subError.ErrorMessage);
                     }
                 }
-                return View(document);
+                return View(model);
             }
 
             try
@@ -89,8 +90,13 @@ namespace SaveVault.Controllers
 
                 _logger.LogInformation("Creating document for user {UserId}", userId);
 
-                document.UserId = userId;
-                document.User = null; // Clear navigation property
+                // Map view model to entity
+                var document = new Document
+                {
+                    Title = model.Title,
+                    Content = model.Content,
+                    UserId = userId
+                };
 
                 var createdDocument = await _documentService.CreateDocumentAsync(document);
                 
@@ -102,7 +108,7 @@ namespace SaveVault.Controllers
             {
                 _logger.LogError(ex, "Error creating document");
                 ModelState.AddModelError(string.Empty, "An error occurred while creating the document.");
-                return View(document);
+                return View(model);
             }
         }
 
@@ -162,7 +168,15 @@ namespace SaveVault.Controllers
                     return NotFound();
                 }
 
-                return View(document);
+                // Map entity to view model
+                var viewModel = new EditDocumentViewModel
+                {
+                    Id = document.Id,
+                    Title = document.Title,
+                    Content = document.Content
+                };
+
+                return View(viewModel);
             }
             catch (Exception ex)
             {
@@ -174,17 +188,17 @@ namespace SaveVault.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Document document)
+        public async Task<IActionResult> Edit(int id, EditDocumentViewModel model)
         {
-            if (id != document.Id)
+            if (id != model.Id)
             {
-                _logger.LogWarning("Document ID mismatch during edit: URL ID {UrlId}, Model ID {ModelId}", id, document.Id);
+                _logger.LogWarning("Document ID mismatch during edit: URL ID {UrlId}, Model ID {ModelId}", id, model.Id);
                 return BadRequest();
             }
 
             if (!ModelState.IsValid)
             {
-                return View(document);
+                return View(model);
             }
 
             try
@@ -195,8 +209,14 @@ namespace SaveVault.Controllers
                     return RedirectToAction("Login", "Auth");
                 }
 
-                document.UserId = userId;
-                document.User = null; // Clear navigation property
+                // Map view model to entity
+                var document = new Document
+                {
+                    Id = model.Id,
+                    Title = model.Title,
+                    Content = model.Content,
+                    UserId = userId
+                };
 
                 var updatedDocument = await _documentService.UpdateDocumentAsync(document);
                 if (updatedDocument == null)
@@ -211,7 +231,7 @@ namespace SaveVault.Controllers
             {
                 _logger.LogError(ex, "Error updating document {DocumentId}", id);
                 ModelState.AddModelError(string.Empty, "An error occurred while updating the document.");
-                return View(document);
+                return View(model);
             }
         }
 
