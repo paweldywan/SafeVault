@@ -33,7 +33,7 @@ namespace SaveVault.Models.ViewModels
 
         [Required(ErrorMessage = "Password is required")]
         [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]", 
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])[A-Za-z\d\W]{8,}$", 
             ErrorMessage = "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character")]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
