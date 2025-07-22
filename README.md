@@ -86,20 +86,20 @@ SaveVault implements **OWASP Top 10** protection and enterprise-grade security m
 ### Project Structure
 ```
 SaveVault/
-??? Controllers/           # MVC Controllers
-?   ??? AuthController.cs     # Authentication logic
-?   ??? DocumentsController.cs # Document management
-?   ??? HomeController.cs      # Home page
-??? Models/               # Data models
-?   ??? ApplicationUser.cs     # User entity
-?   ??? Document.cs           # Document entity
-?   ??? ViewModels/           # View models
-??? Services/             # Business logic
-?   ??? DocumentService.cs    # Document operations
-??? Data/                 # Data access
-?   ??? ApplicationDbContext.cs # EF Core context
-??? Views/                # Razor views
-??? Tests/                # Unit and integration tests
+|-- Controllers/              # MVC Controllers
+|   |-- AuthController.cs        # Authentication logic
+|   |-- DocumentsController.cs   # Document management
+|   +-- HomeController.cs        # Home page
+|-- Models/                   # Data models
+|   |-- ApplicationUser.cs       # User entity
+|   |-- Document.cs              # Document entity
+|   +-- ViewModels/              # View models
+|-- Services/                 # Business logic
+|   +-- DocumentService.cs       # Document operations
+|-- Data/                     # Data access
+|   +-- ApplicationDbContext.cs  # EF Core context
+|-- Views/                    # Razor views
++-- Tests/                    # Unit and integration tests
 ```
 
 ### Security Layers
