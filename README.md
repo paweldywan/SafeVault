@@ -7,42 +7,42 @@
 
 SaveVault is a secure, enterprise-grade document management system built with ASP.NET Core 9.0 and designed with security-first principles. It demonstrates comprehensive implementation of modern web application security practices, making it an excellent reference for secure application development.
 
-## ?? Security Features
+## Security Features
 
 SaveVault implements **OWASP Top 10** protection and enterprise-grade security measures:
 
-### ??? Input Validation & Sanitization
+### Input Validation & Sanitization
 - **Strong validation attributes** on all data models
 - **Regular expressions** preventing malicious character injection
 - **Length limits** preventing buffer overflow attacks
 - **Server-side validation** with comprehensive error handling
 - **HTML encoding** of all user input using `HttpUtility.HtmlEncode`
 
-### ??? SQL Injection Prevention
+### SQL Injection Prevention
 - **Entity Framework Core** with parameterized queries
 - **LINQ-based data access** eliminating raw SQL vulnerabilities
 - **User-based data isolation** ensuring proper access control
 - **Comprehensive testing** against injection attempts
 
-### ?? Cross-Site Scripting (XSS) Protection
+### Cross-Site Scripting (XSS) Protection
 - **Automatic HTML encoding** of all user input
 - **Content Security Policy (CSP)** headers
 - **Input sanitization** in service layers
 - **Razor view protection** with automatic encoding
 
-### ?? Authentication & Authorization
+### Authentication & Authorization
 - **ASP.NET Core Identity** with secure configuration
 - **Strong password requirements** (8+ characters, complexity rules)
 - **Account lockout protection** (5 attempts, 15-minute lockout)
 - **Secure cookie configuration** (HttpOnly, Secure, SameSite)
 - **Session management** with 2-hour timeout and sliding expiration
 
-### ??? Cross-Site Request Forgery (CSRF) Protection
+### Cross-Site Request Forgery (CSRF) Protection
 - **Global antiforgery token validation** on all POST operations
 - **Secure token configuration** with proper SameSite policies
 - **Form-based validation** preventing unauthorized requests
 
-### ?? Security Headers & HTTPS
+### Security Headers & HTTPS
 - **X-Content-Type-Options**: nosniff
 - **X-Frame-Options**: DENY
 - **X-XSS-Protection**: 1; mode=block
@@ -51,7 +51,7 @@ SaveVault implements **OWASP Top 10** protection and enterprise-grade security m
 - **HSTS (HTTP Strict Transport Security)**: Enabled in production
 - **Secure cookies**: Enforced in production environments
 
-## ?? Features
+## Features
 
 ### Document Management
 - **Create, Read, Update, Delete** documents with full CRUD operations
@@ -73,7 +73,7 @@ SaveVault implements **OWASP Top 10** protection and enterprise-grade security m
 - **Document access auditing**
 - **Error handling** without information disclosure
 
-## ??? Architecture
+## Architecture
 
 ### Technology Stack
 - **ASP.NET Core 9.0** - Web framework
@@ -108,7 +108,7 @@ SaveVault/
 3. **Service Layer**: Data sanitization, XSS prevention, access control
 4. **Data Layer**: Parameterized queries, user isolation, audit trails
 
-## ?? Testing
+## Testing
 
 The project includes **85 comprehensive tests** covering:
 
@@ -124,7 +124,7 @@ The project includes **85 comprehensive tests** covering:
 - **User Management**: Registration, login, session handling
 - **Error Handling**: Graceful error management and user feedback
 
-## ??? Setup & Installation
+## Setup & Installation
 
 ### Prerequisites
 - **.NET 9.0 SDK** or later
@@ -161,7 +161,7 @@ The project includes **85 comprehensive tests** covering:
 ### Database Setup
 The application automatically creates the database on first run using Entity Framework migrations.
 
-## ?? Configuration
+## Configuration
 
 ### Environment-Specific Security
 - **Development**: Relaxed CSP for debugging tools, HTTP cookies allowed
@@ -175,16 +175,16 @@ Key security settings in `Program.cs`:
 - **Session timeout**: 2 hours with sliding expiration
 - **Cookie security**: HttpOnly, Secure (production), SameSite=Strict
 
-## ?? Security Metrics
+## Security Metrics
 
-- **OWASP Top 10 Coverage**: ? Complete
-- **Security Headers**: ? All implemented
-- **Input Validation**: ? Comprehensive
-- **Authentication Security**: ? Enterprise-grade
-- **Test Coverage**: ? 85 tests passing
-- **Code Analysis**: ? Clean, secure code
+- **OWASP Top 10 Coverage**: Complete
+- **Security Headers**: All implemented
+- **Input Validation**: Comprehensive
+- **Authentication Security**: Enterprise-grade
+- **Test Coverage**: 85 tests passing
+- **Code Analysis**: Clean, secure code
 
-## ?? Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
@@ -199,11 +199,11 @@ Key security settings in `Program.cs`:
 - Use parameterized queries for database access
 - Implement proper error handling
 
-## ?? License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## ?? Support
+## Support
 
 For support, please:
 1. Check the [documentation](#documentation)
